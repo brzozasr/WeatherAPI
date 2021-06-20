@@ -12,7 +12,7 @@ namespace WeatherAPI.Controllers
     public class WeatherController : ControllerBase
     {
         private readonly IPointsWeatherService _points;
-        private ILogger _logger;
+        private readonly ILogger _logger;
         
         public WeatherController(ILogger<WeatherController> logger, IPointsWeatherService points)
         {

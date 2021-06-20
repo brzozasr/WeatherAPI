@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WeatherAPI.DbContext;
+using WeatherAPI.Models;
+using WeatherAPI.Repositories;
 
 namespace WeatherAPI
 {
@@ -31,6 +33,9 @@ namespace WeatherAPI
             services.AddDbContext<WeatherDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IRepository<City>, CityRepository>();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

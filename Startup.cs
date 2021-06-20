@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WeatherAPI.DbContext;
+using WeatherAPI.Extensions;
 using WeatherAPI.Models;
 using WeatherAPI.Repositories;
 
@@ -35,8 +37,9 @@ namespace WeatherAPI
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IRepository<City>, CityRepository>();
-            
-            services.AddControllers();
+            services.AddOpenWeatherService(new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]));
+
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "WeatherAPI", Version = "v1"});

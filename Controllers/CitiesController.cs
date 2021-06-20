@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using WeatherAPI.Extensions;
 using WeatherAPI.Models;
 using WeatherAPI.Repositories;
 

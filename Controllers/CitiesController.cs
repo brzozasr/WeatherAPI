@@ -40,6 +40,7 @@ namespace WeatherAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("{Msg}", e.Message);
                 return Problem(e.Message, null, null, e.Source);
             }
         }

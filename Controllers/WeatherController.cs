@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,19 +11,42 @@ namespace WeatherAPI.Controllers
     [ApiController]
     public class WeatherController : ControllerBase
     {
-        private readonly IOpenWeatherService _openWeatherService;
+        private readonly IPointsWeatherService _points;
         private ILogger _logger;
         
-        public WeatherController(ILogger<WeatherController> logger, IOpenWeatherService openWeatherService)
+        public WeatherController(ILogger<WeatherController> logger, IPointsWeatherService points)
         {
-            _openWeatherService = openWeatherService;
+            _points = points;
             _logger = logger;
         }
 
-        [HttpGet("Get/BBox/Weather")]
-        public async Task<IActionResult> GetWeatherBox()
+        [HttpGet("Get/BBox/{lonLeft:double}/{latBottom:double}/{lonRight:double}/{latTop:double}/{zoom:int}")]
+        public async Task<IActionResult> GetWeatherBox(
+            double lonLeft, double latBottom, double lonRight, double latTop, int zoom)
         {
-            return Ok(await _openWeatherService.GetOpenWeatherBoxAsync(18.149414062500004,51.037939894299356,23.8897705078125,53.396432127095984,8));
+            try
+            {
+                var points = await _points.GetPointsWeatherAsync(
+                    lonLeft, latBottom, lonRight, latTop, zoom);
+
+                var listPoints = points.ToList();
+
+                if (listPoints.Any() && 
+                    listPoints.FirstOrDefault(x => x.Code == 200) != null)
+                {
+                    _logger.LogInformation("Weather found for {Num} cities", listPoints.Count);
+                    return Ok(points);
+                }
+
+                _logger.LogWarning("Something went wrong, error code {Code}",
+                    listPoints.FirstOrDefault()?.Code);
+                return Ok(points);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("{Msg}", e.Message);
+                return Problem(e.Message, null, null, e.Source);
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ using WeatherAPI.DbContext;
 using WeatherAPI.Extensions;
 using WeatherAPI.Models;
 using WeatherAPI.Repositories;
+using WeatherAPI.Services;
 
 namespace WeatherAPI
 {
@@ -37,7 +38,10 @@ namespace WeatherAPI
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IRepository<City>, CityRepository>();
-            services.AddOpenWeatherService(new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]));
+            
+            services.AddOpenWeatherService(
+                new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]))
+                .AddTransient<IPointsWeatherService, PointsWeatherService>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>

@@ -31,7 +31,7 @@ namespace WeatherAPI.Services
                 using (var response = await _httpClient.GetAsync(
                         $"box/city?bbox={lonLeft},{latBottom},{lonRight},{latTop},{zoom}&appid={StartupExtensions.AppSetting["OpenWeatherApiKey:APIKey"]}"))
                 {
-                    response.EnsureSuccessStatusCode();
+                    //response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
                     listOfCitiesWeather = JsonConvert.DeserializeObject<WeatherBoxRoot>(content);;
                 }

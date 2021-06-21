@@ -35,7 +35,8 @@ namespace WeatherAPI.Repositories
              if (!startsWith.Any() || startsWith.Count < quantityReturnedCities)
              {
                  int citiesCounter = quantityReturnedCities - startsWith.Count;
-                 var contains = await _dbSet.Where(x => x.Name.ToLower().Contains(partialName))
+                 var contains = await _dbSet.Where(x => x.Name.ToLower().Contains(partialName) 
+                                                        && !x.Name.ToLower().StartsWith(partialName))
                      .Take(citiesCounter).ToListAsync();
                  startsWith.AddRange(contains);
              }

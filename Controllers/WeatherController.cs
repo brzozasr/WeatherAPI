@@ -35,17 +35,17 @@ namespace WeatherAPI.Controllers
                     listPoints.FirstOrDefault(x => x.Code == 200) != null)
                 {
                     _logger.LogInformation("[{Time}]: Weather found for {Num} cities", 
-                        DateTime.Now, listPoints.Count);
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), listPoints.Count);
                     return Ok(points);
                 }
 
                 _logger.LogWarning("[{Time}]: Something went wrong, error code {Code}",
-                    DateTime.Now, listPoints.FirstOrDefault()?.Code);
+                    DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), listPoints.FirstOrDefault()?.Code);
                 return Ok(points);
             }
             catch (Exception e)
             {
-                _logger.LogError("[{Time}]: {Msg}", DateTime.Now, e.Message);
+                _logger.LogError("[{Time}]: {Msg}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), e.Message);
                 return Problem(e.Message, null, null, e.Source);
             }
         }

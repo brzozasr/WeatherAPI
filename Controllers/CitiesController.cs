@@ -33,15 +33,15 @@ namespace WeatherAPI.Controllers
                 if (counter.Any())
                 {
                     _logger.LogInformation("[{Time}]: The number of returned cities: {Count}", 
-                        DateTime.Now, counter.Count);
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), counter.Count);
                     return Ok(result);
                 }
-                _logger.LogInformation("[{Time}]: The city was not found", DateTime.Now);
+                _logger.LogInformation("[{Time}]: The city was not found", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                 return Ok(new {detail = "The city was not found"});
             }
             catch (Exception e)
             {
-                _logger.LogError("[{Time}]: {Msg}", DateTime.Now,  e.Message);
+                _logger.LogError("[{Time}]: {Msg}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"),  e.Message);
                 return Problem(e.Message, null, null, e.Source);
             }
         }

@@ -42,6 +42,20 @@ namespace WeatherAPI
             services.AddOpenWeatherService(
                 new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]))
                 .AddTransient<IPointsWeatherService, PointsWeatherService>();
+            
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins(
+                            "https://localhost:5001", 
+                            "http://localhost:5000",
+                            "http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
@@ -63,6 +77,8 @@ namespace WeatherAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors();
 
             app.UseAuthorization();
 

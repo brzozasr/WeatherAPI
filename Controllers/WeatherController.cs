@@ -39,8 +39,19 @@ namespace WeatherAPI.Controllers
                     return Ok(points);
                 }
 
-                _logger.LogWarning("[{Time}]: Something went wrong, error code {Code}",
-                    DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), listPoints.FirstOrDefault()?.Code);
+                if (listPoints.Any() && listPoints.FirstOrDefault()?.Code is not null)
+                {
+                    _logger.LogWarning("[{Time}]: Something went wrong, error code {Code}",
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), listPoints.FirstOrDefault()?.Code);
+                    return Ok(points);
+                }
+
+                if (listPoints.FirstOrDefault()?.Code is null)
+                {
+                    _logger.LogWarning("[{Time}]: There are no weather stations in the selected area",
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                }
+
                 return Ok(points);
             }
             catch (Exception e)

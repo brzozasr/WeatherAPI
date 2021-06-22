@@ -17,7 +17,7 @@ namespace WeatherAPI.Models.WeatherBBox
         public float TempMax { get; set; }
         
         [JsonProperty("pressure")] 
-        public int Pressure { get; set; }
+        public float Pressure { get; set; }
         
         [JsonProperty("humidity")] 
         public int Humidity { get; set; }

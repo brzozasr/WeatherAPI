@@ -23,7 +23,7 @@ namespace WeatherAPI.Services
         {
             try
             {
-                WeatherBoxRoot listOfCitiesWeather;
+                Console.WriteLine($"Coords: {lonLeft},{latBottom},{lonRight},{latTop},{zoom}");
                 
                 _httpClient.DefaultRequestHeaders.Accept.Clear();
                 _httpClient.DefaultRequestHeaders.Accept.Add(
@@ -33,10 +33,14 @@ namespace WeatherAPI.Services
                 {
                     //response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    listOfCitiesWeather = JsonConvert.DeserializeObject<WeatherBoxRoot>(content);;
+                    if (content.Length > 2)
+                    {
+                        var listOfCitiesWeather = JsonConvert.DeserializeObject<WeatherBoxRoot>(content);
+                        return listOfCitiesWeather;
+                    }
                 }
 
-                return listOfCitiesWeather;
+                return null;
             }
             catch (HttpRequestException e)
             {

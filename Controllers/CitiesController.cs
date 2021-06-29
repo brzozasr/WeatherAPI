@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,18 @@ namespace WeatherAPI.Controllers
             _repository = repository;
         }
         
-        [HttpGet("Get/{city}")]
-        public async Task<IActionResult> GetCities(string city)
+        [HttpGet("Get/{city?}")]
+        public async Task<IActionResult> GetCities([FromRoute] string city)
         {
             try
             {
-                var result = await _repository.GetByPartialMatch(city);
+                var result = Enumerable.Empty<City>();
+
+                if (!string.IsNullOrEmpty(city))
+                {
+                    result = await _repository.GetByPartialMatch(city);
+                }
+                
 
                 var counter = result.ToList();
                 if (counter.Any())

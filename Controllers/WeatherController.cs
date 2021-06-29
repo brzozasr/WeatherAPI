@@ -21,8 +21,9 @@ namespace WeatherAPI.Controllers
         }
 
         [HttpGet("Get/BBox/{lonLeft:double}/{latBottom:double}/{lonRight:double}/{latTop:double}/{zoom:int}")]
-        public async Task<IActionResult> GetWeatherBox(
-            double lonLeft, double latBottom, double lonRight, double latTop, int zoom)
+        public async Task<IActionResult> GetWeatherBox([FromRoute] double lonLeft, 
+            [FromRoute] double latBottom, [FromRoute] double lonRight, 
+            [FromRoute] double latTop, [FromRoute] int zoom)
         {
             try
             {

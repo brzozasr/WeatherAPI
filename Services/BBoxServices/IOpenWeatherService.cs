@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WeatherAPI.Models;
 using WeatherAPI.Models.WeatherBBox;
 
-namespace WeatherAPI.Services
+namespace WeatherAPI.Services.BBoxServices
 {
     public interface IOpenWeatherService
     {

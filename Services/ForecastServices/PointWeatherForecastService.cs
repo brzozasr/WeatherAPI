@@ -5,10 +5,19 @@ namespace WeatherAPI.Services.ForecastServices
 {
     public class PointWeatherForecastService : IPointWeatherForecastService
     {
-        public Task<PointWeatherForecast> GetPointWeatherForecastAsync(double lat, double lon, 
+        private IOpenWeatherForecastService _openWeatherForecast;
+
+        public PointWeatherForecastService(IOpenWeatherForecastService openWeatherForecast)
+        {
+            _openWeatherForecast = openWeatherForecast;
+        }
+        public async Task<PointWeatherForecast> GetPointWeatherForecastAsync(double lat, double lon, 
             string units = "metric", string lang = "en")
         {
-            throw new System.NotImplementedException();
+            var pointWeatherForecast = _openWeatherForecast.GetWeatherForecastAsync(
+                lat, lon, units, lang);
+
+            return new PointWeatherForecast();
         }
     }
 }

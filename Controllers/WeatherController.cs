@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherAPI.Services;
 using WeatherAPI.Services.BBoxServices;
+using WeatherAPI.Services.ForecastServices;
 
 namespace WeatherAPI.Controllers
 {
@@ -13,11 +14,14 @@ namespace WeatherAPI.Controllers
     public class WeatherController : ControllerBase
     {
         private readonly IPointsWeatherService _points;
+        private readonly IPointWeatherForecastService _forecast;
         private readonly ILogger _logger;
         
-        public WeatherController(ILogger<WeatherController> logger, IPointsWeatherService points)
+        public WeatherController(ILogger<WeatherController> logger, IPointsWeatherService points,
+            IPointWeatherForecastService forecast)
         {
             _points = points;
+            _forecast = forecast;
             _logger = logger;
         }
 
@@ -65,10 +69,10 @@ namespace WeatherAPI.Controllers
 
         [HttpGet("Forecast/Get/Point/{lat:double}/{lon:double}/{units?}/{lang?}")]
         public async Task<IActionResult> GetPointWeatherForecast(
-        [FromRoute] double lat, [FromRoute] double lon, [FromRoute] string units, 
-        [FromRoute] string lang)
+        [FromRoute] double lat, [FromRoute] double lon, [FromRoute] string units = "metric", 
+        [FromRoute] string lang = "en")
         {
-            throw new NotImplementedException();
+            return Ok(_forecast.GetPointWeatherForecastAsync(lat, lon, units, lang));
         }
     }
 }

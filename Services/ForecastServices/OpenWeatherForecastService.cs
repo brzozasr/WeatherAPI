@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace WeatherAPI.Services.ForecastServices
                     $"onecall?lat={lat}&lon={lon}&units={units}&lang={lang}&appid={StartupExtensions.AppSetting["OpenWeatherApiKey:APIKey"]}"))
                 {
                     var content = await response.Content.ReadAsStringAsync();
+
                     if (content.Length > 0)
                     {
                         var weatherForecast = JsonConvert.DeserializeObject<WeatherForecast>(content);

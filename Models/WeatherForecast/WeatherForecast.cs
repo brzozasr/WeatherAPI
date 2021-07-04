@@ -21,15 +21,15 @@ namespace WeatherAPI.Models.WeatherForecast
         public CurrentWf CurrentWf { get; set; }
         
         [JsonProperty("minutely")]
-        public IList<MinutelyWf> Minutely { get; set; }
+        public IEnumerable<MinutelyWf> Minutely { get; set; }
         
         [JsonProperty("hourly")]
-        public IList<HourlyWf> Hourly { get; set; }
+        public IEnumerable<HourlyWf> Hourly { get; set; }
         
         [JsonProperty("daily")]
-        public IList<DailyWf> Daily { get; set; }
+        public IEnumerable<DailyWf> Daily { get; set; }
         
         [JsonProperty("alerts")]
-        public IList<AlertsWf> AlertsWf { get; set; }
+        public IEnumerable<AlertsWf> AlertsWf { get; set; }
     }
 }

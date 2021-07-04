@@ -12,15 +12,15 @@ namespace WeatherAPI.Models.WeatherForecast
         public string Event { get; set; }
         
         [JsonProperty("start")]
-        public long Start { get; set; }
+        public long? Start { get; set; }
         
         [JsonProperty("end")]
-        public long End { get; set; }
+        public long? End { get; set; }
         
         [JsonProperty("description")]
         public string Description { get; set; }
         
         [JsonProperty("tags")]
-        public IList<string> Tags { get; set; }
+        public IEnumerable<string> Tags { get; set; }
     }
 }

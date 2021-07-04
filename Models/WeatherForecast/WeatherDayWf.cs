@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace WeatherAPI.Models.WeatherForecast
 {
-    public class WeatherWf
+    public class WeatherDayWf
     {
         [JsonProperty("id")]
         public int Id { get; set; }

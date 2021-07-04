@@ -72,7 +72,8 @@ namespace WeatherAPI.Controllers
         [FromRoute] double lat, [FromRoute] double lon, [FromRoute] string units = "metric", 
         [FromRoute] string lang = "en")
         {
-            return Ok(_forecast.GetPointWeatherForecastAsync(lat, lon, units, lang));
+            var test = await _forecast.GetPointWeatherForecastAsync(lat, lon, units, lang);
+            return Ok(test);
         }
     }
 }

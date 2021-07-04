@@ -48,7 +48,7 @@ namespace WeatherAPI.Models.WeatherForecast
         public float? WindGust { get; set; }
         
         [JsonProperty("weather")]
-        public IList<WeatherWf> Weathers { get; set; }
+        public IEnumerable<WeatherDayWf> Weathers { get; set; }
         
         [JsonProperty("clouds")]
         public int Clouds { get; set; }

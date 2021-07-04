@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using WeatherAPI.Models;
+using WeatherAPI.Models.PointWeatherForecast;
 
 namespace WeatherAPI.Services.ForecastServices
 {

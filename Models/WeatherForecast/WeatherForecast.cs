@@ -25,5 +25,11 @@ namespace WeatherAPI.Models.WeatherForecast
         
         [JsonProperty("hourly")]
         public IList<HourlyWf> Hourly { get; set; }
+        
+        [JsonProperty("daily")]
+        public IList<DailyWf> Daily { get; set; }
+        
+        [JsonProperty("alerts")]
+        public IList<AlertsWf> AlertsWf { get; set; }
     }
 }

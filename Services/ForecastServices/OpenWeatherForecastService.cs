@@ -1,42 +1,42 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using WeatherAPI.Extensions;
-using WeatherAPI.Models.WeatherBBox;
+using WeatherAPI.Models.WeatherForecast;
+using Newtonsoft.Json;
 
-namespace WeatherAPI.Services
+namespace WeatherAPI.Services.ForecastServices
 {
-    public class OpenWeatherService : IOpenWeatherService
+    public class OpenWeatherForecastService : IOpenWeatherForecastService
     {
-        private readonly HttpClient _httpClient;
-
-        public OpenWeatherService(HttpClient httpClient)
+        private HttpClient _httpClient;
+        public OpenWeatherForecastService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<WeatherBoxRoot> GetOpenWeatherBoxAsync(
-            double lonLeft, double latBottom, double lonRight, double latTop, int zoom)
+        public async Task<WeatherForecast> GetWeatherForecastAsync(
+            double lat, double lon, string units = "metric", string lang = "en")
         {
             try
             {
-                Console.WriteLine($"Coords: {lonLeft},{latBottom},{lonRight},{latTop},{zoom}");
-                
+                Console.WriteLine($"URI params: lat={lat}, lon={lon}, units={units}, lang={lang}");
+
                 _httpClient.DefaultRequestHeaders.Accept.Clear();
                 _httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
+                
                 using (var response = await _httpClient.GetAsync(
-                        $"box/city?bbox={lonLeft},{latBottom},{lonRight},{latTop},{zoom}&appid={StartupExtensions.AppSetting["OpenWeatherApiKey:APIKey"]}"))
+                    $"onecall?lat={lat}&lon={lon}&units={units}&lang={lang}&appid={StartupExtensions.AppSetting["OpenWeatherApiKey:APIKey"]}"))
                 {
-                    //response.EnsureSuccessStatusCode();
                     var content = await response.Content.ReadAsStringAsync();
-                    if (content.Length > 2)
+
+                    if (content.Length > 0)
                     {
-                        var listOfCitiesWeather = JsonConvert.DeserializeObject<WeatherBoxRoot>(content);
-                        return listOfCitiesWeather;
+                        var weatherForecast = JsonConvert.DeserializeObject<WeatherForecast>(content);
+                        return weatherForecast;
                     }
                 }
 

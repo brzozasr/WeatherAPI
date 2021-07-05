@@ -26,7 +26,7 @@ namespace WeatherAPI.Repositories
 
         public async Task<IEnumerable<City>> GetByPartialMatch(string partialName)
         {
-            int quantityReturnedCities = 50;
+            int quantityReturnedCities = 30;
             partialName = partialName.ToLower();
 
             var startsWith = await _dbSet.Where(x => x.Name.ToLower().StartsWith(partialName))

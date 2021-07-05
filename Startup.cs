@@ -1,23 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using WeatherAPI.DbContext;
 using WeatherAPI.Extensions;
 using WeatherAPI.Models;
 using WeatherAPI.Repositories;
-using WeatherAPI.Services;
+using WeatherAPI.Services.BBoxServices;
+using WeatherAPI.Services.ForecastServices;
 
 namespace WeatherAPI
 {
@@ -42,6 +37,10 @@ namespace WeatherAPI
             services.AddOpenWeatherService(
                 new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]))
                 .AddTransient<IPointsWeatherService, PointsWeatherService>();
+
+            services.AddOpenWeatherForecastService(
+                new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]))
+                .AddTransient<IPointWeatherForecastService, PointWeatherForecastService>();
             
             services.AddCors(options =>
             {

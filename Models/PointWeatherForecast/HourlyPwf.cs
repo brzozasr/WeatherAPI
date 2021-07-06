@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace WeatherAPI.Models.PointWeatherForecast
 {
-    public class CurrentPwf
+    public class HourlyPwf
     {
-        public DateTime? DtUtc { get; set; }
         public DateTime? DtLocal { get; set; }
-        public DateTime? SunriseLocal { get; set; }
-        public DateTime? SunsetLocal { get; set; }
         public float? Temp { get; set; }
         public float? FeelsLike { get; set; }
         public float? Pressure { get; set; }
@@ -21,6 +18,7 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public WindDir WindDir { get; set; }
         public float? WindGust { get; set; }
         public IEnumerable<WeatherPwf> Weathers { get; set; }
+        public float? Pop { get; set; }
         public RainPwf Rain { get; set; }
         public SnowPwf Snow { get; set; }
     }

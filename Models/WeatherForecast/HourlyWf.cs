@@ -42,15 +42,15 @@ namespace WeatherAPI.Models.WeatherForecast
         public float? WindGust { get; set; }
         
         [JsonProperty("weather")]
-        public IEnumerable<WeatherHourWf> Weathers { get; set; }
+        public IEnumerable<WeatherWf> Weathers { get; set; }
         
         [JsonProperty("pop")]
         public float Pop { get; set; }
         
         [JsonProperty("rain")]
-        public RainHourWf Rain { get; set; }
+        public RainWf Rain { get; set; }
         
         [JsonProperty("snow")]
-        public SnowHourWf Snow { get; set; }
+        public SnowWf Snow { get; set; }
     }
 }

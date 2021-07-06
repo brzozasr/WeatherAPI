@@ -1,6 +1,6 @@
 namespace WeatherAPI.Extensions
 {
-    public static class Util
+    public static class Helper
     {
         public static string FirstLetterToUpper(this string str)
         {

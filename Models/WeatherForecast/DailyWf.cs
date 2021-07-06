@@ -64,7 +64,5 @@ namespace WeatherAPI.Models.WeatherForecast
         
         [JsonProperty("snow")]
         public float? Snow { get; set; }
-        
-        
     }
 }

@@ -33,6 +33,7 @@ namespace WeatherAPI.Services.ForecastServices
                     Current = GetCurrent(weatherForecast),
                     Minutely = GetMinutely(weatherForecast),
                     Hourly = GetHourly(weatherForecast),
+                    Daily = GetDaily(weatherForecast),
                 };
 
                 return point;
@@ -47,14 +48,10 @@ namespace WeatherAPI.Services.ForecastServices
             {
                 var current = new CurrentPwf
                 {
-                    DtUtc = DateTimeOffset.FromUnixTimeSeconds(
-                        weather.CurrentWf.Dt).DateTime,
-                    DtLocal = DateTimeOffset.FromUnixTimeSeconds(
-                        weather.CurrentWf.Dt + weather.TimezoneOffset).DateTime,
-                    SunriseLocal = DateTimeOffset.FromUnixTimeSeconds(
-                        weather.CurrentWf.Sunrise + weather.TimezoneOffset).DateTime,
-                    SunsetLocal = DateTimeOffset.FromUnixTimeSeconds(
-                        weather.CurrentWf.Sunset + weather.TimezoneOffset).DateTime,
+                    DtUtc = UnixTimeToDateTime(weather.CurrentWf.Dt),
+                    DtLocal = UnixTimeToDateTimeLocal(weather.CurrentWf.Dt, weather.TimezoneOffset),
+                    SunriseLocal = UnixTimeToDateTimeLocal(weather.CurrentWf.Sunrise, weather.TimezoneOffset),
+                    SunsetLocal = UnixTimeToDateTimeLocal(weather.CurrentWf.Sunset, weather.TimezoneOffset),
                     Temp = weather.CurrentWf.Temp,
                     FeelsLike = weather.CurrentWf.FeelsLike,
                     Pressure = weather.CurrentWf.Pressure,
@@ -62,15 +59,10 @@ namespace WeatherAPI.Services.ForecastServices
                     DewPoint = weather.CurrentWf.DewPoint,
                     Uvi = weather.CurrentWf.Uvi,
                     Clouds = weather.CurrentWf.Clouds,
-                    VisibilityKm = (float?) Math.Round(weather.CurrentWf.Visibility / 1000.0f, 1,
-                        MidpointRounding.ToZero),
-                    WindSpeedKmPerH = (float?) Math.Round(
-                        weather.CurrentWf.WindSpeed * 3.6f, 1, MidpointRounding.ToZero),
+                    VisibilityKm = MToKm(weather.CurrentWf.Visibility),
+                    WindSpeedKmPerH = MPerSecToKmPerH(weather.CurrentWf.WindSpeed),
                     WindDir = GetWindDirection(weather.CurrentWf.WindDeg),
-                    WindGustKmPerH = (float?) Math.Round(
-                        weather.CurrentWf.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero) == 0
-                        ? null : (float?) Math.Round(
-                            weather.CurrentWf.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero),
+                    WindGustKmPerH = MPerSecToKmPerH(weather.CurrentWf.WindGust),
                     Weathers = GetWeather(weather.CurrentWf.Weathers),
                     Rain = GetRain(weather.CurrentWf.Rain),
                     Snow = GetSnow(weather.CurrentWf.Snow),
@@ -92,8 +84,7 @@ namespace WeatherAPI.Services.ForecastServices
                 {
                     var minute = new MinutelyPwf
                     {
-                        DtLocal = DateTimeOffset.FromUnixTimeSeconds(
-                            min.Dt + weather.TimezoneOffset).DateTime,
+                        DtLocal = UnixTimeToDateTimeLocal(min.Dt, weather.TimezoneOffset),
                         Precipitation = min.Precipitation
                     };
                     
@@ -116,8 +107,7 @@ namespace WeatherAPI.Services.ForecastServices
                 {
                     var hourlyPwf = new HourlyPwf
                     {
-                        DtLocal = DateTimeOffset.FromUnixTimeSeconds(
-                            hour.Dt + weather.TimezoneOffset).DateTime,
+                        DtLocal = UnixTimeToDateTimeLocal(hour.Dt, weather.TimezoneOffset),
                         Temp = hour.Temp,
                         FeelsLike = hour.FeelsLike,
                         Pressure = hour.Pressure,
@@ -125,15 +115,10 @@ namespace WeatherAPI.Services.ForecastServices
                         DewPoint = hour.DewPoint,
                         Uvi = hour.Uvi,
                         Clouds = hour.Clouds,
-                        VisibilityKm = (float?) Math.Round(hour.Visibility / 1000.0f, 1,
-                            MidpointRounding.ToZero),
-                        WindSpeedKmPerH = (float?) Math.Round(
-                            hour.WindSpeed * 3.6f, 1, MidpointRounding.ToZero),
+                        VisibilityKm = MToKm(hour.Visibility),
+                        WindSpeedKmPerH = MPerSecToKmPerH(hour.WindSpeed),
                         WindDir = GetWindDirection(hour.WindDeg),
-                        WindGustKmPerH = (float?) Math.Round(
-                            hour.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero) == 0
-                            ? null : (float?) Math.Round(
-                                hour.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero),
+                        WindGustKmPerH = MPerSecToKmPerH(hour.WindGust),
                         Weathers = GetWeather(hour.Weathers),
                         Pop = hour.Pop,
                         Rain = GetRain(hour.Rain),
@@ -144,6 +129,32 @@ namespace WeatherAPI.Services.ForecastServices
                 }
 
                 return hourly;
+            }
+
+            return null;
+        }
+
+        private IEnumerable<DailyPwf> GetDaily(WeatherForecast weather)
+        {
+            if (weather.Daily is not null)
+            {
+                var daily = new List<DailyPwf>();
+
+                foreach (var day in weather.Daily)
+                {
+                    var dailyPwf = new DailyPwf
+                    {
+                        DtLocal = UnixTimeToDateTimeLocal(day.Dt, weather.TimezoneOffset),
+                        SunriseLocal = UnixTimeToDateTimeLocal(day.Sunrise, weather.TimezoneOffset),
+                        SunsetLocal = UnixTimeToDateTimeLocal(day.Sunset, weather.TimezoneOffset),
+                        MoonriseLocal = UnixTimeToDateTimeLocal(day.Moonrise, weather.TimezoneOffset),
+                        MoonsetLocal = UnixTimeToDateTimeLocal(day.Moonset, weather.TimezoneOffset),
+                        MoonPhase = day.MoonPhase,
+                    };
+                    daily.Add(dailyPwf);
+                }
+
+                return daily;
             }
 
             return null;
@@ -210,6 +221,47 @@ namespace WeatherAPI.Services.ForecastServices
                 DirArrow = direction.DirectionArrow()
             };
             return wind;
+        }
+
+        private DateTime? UnixTimeToDateTime(long unixTime)
+        {
+            if (unixTime > 0)
+            {
+                return DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
+            }
+
+            return null;
+        }
+        
+        private DateTime? UnixTimeToDateTimeLocal(long unixTime, long timezoneOffset)
+        {
+            if (unixTime > 0)
+            {
+                var localTime = unixTime + timezoneOffset;
+                return DateTimeOffset.FromUnixTimeSeconds(localTime).DateTime;
+            }
+
+            return null;
+        }
+
+        private float? MPerSecToKmPerH(float? mPerSec)
+        {
+            return (float?) Math.Round(
+                mPerSec ?? 0 * 3.6f, 2, MidpointRounding.ToZero) == 0
+                ? null
+                : (float?) Math.Round(
+                    mPerSec ?? 0 * 3.6f, 2, MidpointRounding.ToZero);
+        }
+        
+        private float? MPerSecToKmPerH(float mPerSec)
+        {
+            return (float?) Math.Round(mPerSec * 3.6f, 2, MidpointRounding.ToZero);
+        }
+
+        private float? MToKm(int meters)
+        {
+            return (float?) Math.Round(meters / 1000.0f, 2,
+                MidpointRounding.ToZero);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public CurrentPwf Current { get; set; }
         public IEnumerable<MinutelyPwf> Minutely { get; set; }
         public IEnumerable<HourlyPwf> Hourly { get; set; }
+        public IEnumerable<DailyPwf> Daily { get; set; }
     }
 }

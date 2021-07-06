@@ -24,6 +24,17 @@ namespace WeatherAPI.Utilities
 
             return null;
         }
+        
+        public static DateTime? UnixTimeToDateTimeLocal(long? unixTime, long timezoneOffset)
+        {
+            if (unixTime.HasValue && unixTime > 0)
+            {
+                var localTime = unixTime + timezoneOffset;
+                return DateTimeOffset.FromUnixTimeSeconds(localTime.Value).DateTime;
+            }
+
+            return null;
+        }
 
         public static float? MPerSecToKmPerH(float? mPerSec)
         {

@@ -181,16 +181,38 @@ namespace WeatherAPI.Services.ForecastServices
             {
                 var alerts = new List<AlertsPwf>();
 
-                foreach (var day in weather.AlertsWf)
+                foreach (var alert in weather.AlertsWf)
                 {
                     var alertsPwf = new AlertsPwf
                     {
-
+                        SenderName = alert.SenderName,
+                        Event = alert.Event,
+                        Start = Util.UnixTimeToDateTimeLocal(alert.Start, weather.TimezoneOffset),
+                        End = Util.UnixTimeToDateTimeLocal(alert.End, weather.TimezoneOffset),
+                        Description = alert.Description,
+                        Tags = GetAlertTags(alert)
                     };
                     alerts.Add(alertsPwf);
                 }
 
                 return alerts;
+            }
+
+            return null;
+        }
+
+        private IEnumerable<string> GetAlertTags(AlertsWf alert)
+        {
+            if (alert is not null)
+            {
+                var tags = new List<string>();
+                
+                foreach (var tag in alert.Tags)
+                {
+                    tags.Add(tag);
+                }
+
+                return tags;
             }
 
             return null;

@@ -66,15 +66,10 @@ namespace WeatherAPI.Services.ForecastServices
                         MidpointRounding.ToZero),
                     WindSpeedKmPerH = (float?) Math.Round(
                         weather.CurrentWf.WindSpeed * 3.6f, 1, MidpointRounding.ToZero),
-                    WindDir = new WindDir
-                    {
-                        DirTxt = weather.CurrentWf.WindDeg.DirectionTxt(),
-                        DirArrow = weather.CurrentWf.WindDeg.DirectionArrow()
-                    },
+                    WindDir = GetWindDirection(weather.CurrentWf.WindDeg),
                     WindGustKmPerH = (float?) Math.Round(
                         weather.CurrentWf.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero) == 0
-                        ? null
-                        : (float?) Math.Round(
+                        ? null : (float?) Math.Round(
                             weather.CurrentWf.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero),
                     Weathers = GetWeather(weather.CurrentWf.Weathers),
                     Rain = GetRain(weather.CurrentWf.Rain),
@@ -89,12 +84,10 @@ namespace WeatherAPI.Services.ForecastServices
 
         private IEnumerable<MinutelyPwf> GetMinutely(WeatherForecast weather)
         {
-            List<MinutelyPwf> minutely = null;
-
             if (weather.Minutely is not null)
             {
-                minutely = new List<MinutelyPwf>();
-                    
+                var minutely = new List<MinutelyPwf>();
+
                 foreach (var min in weather.Minutely)
                 {
                     var minute = new MinutelyPwf
@@ -106,21 +99,21 @@ namespace WeatherAPI.Services.ForecastServices
                     
                     minutely.Add(minute);
                 }
+
+                return minutely;
             }
 
-            return minutely;
+            return null;
         }
 
         private IEnumerable<HourlyPwf> GetHourly(WeatherForecast weather)
         {
-            List<HourlyPwf> hourly = null;
-
             if (weather.Hourly is not null)
             {
+                var hourly = new List<HourlyPwf>();
+
                 foreach (var hour in weather.Hourly)
                 {
-                    hourly = new List<HourlyPwf>();
-                    
                     var hourlyPwf = new HourlyPwf
                     {
                         DtLocal = DateTimeOffset.FromUnixTimeSeconds(
@@ -132,17 +125,28 @@ namespace WeatherAPI.Services.ForecastServices
                         DewPoint = hour.DewPoint,
                         Uvi = hour.Uvi,
                         Clouds = hour.Clouds,
-                        Visibility = hour.Visibility,
-                        WindSpeed = hour.WindSpeed,
-                        WindDeg = hour.WindDeg,
-                        WindGust = hour.WindGust
+                        VisibilityKm = (float?) Math.Round(hour.Visibility / 1000.0f, 1,
+                            MidpointRounding.ToZero),
+                        WindSpeedKmPerH = (float?) Math.Round(
+                            hour.WindSpeed * 3.6f, 1, MidpointRounding.ToZero),
+                        WindDir = GetWindDirection(hour.WindDeg),
+                        WindGustKmPerH = (float?) Math.Round(
+                            hour.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero) == 0
+                            ? null : (float?) Math.Round(
+                                hour.WindGust ?? 0 * 3.6f, 1, MidpointRounding.ToZero),
+                        Weathers = GetWeather(hour.Weathers),
+                        Pop = hour.Pop,
+                        Rain = GetRain(hour.Rain),
+                        Snow = GetSnow(hour.Snow)
                     };
                     
                     hourly.Add(hourlyPwf);
                 }
+
+                return hourly;
             }
 
-            return hourly;
+            return null;
         }
 
         private IEnumerable<WeatherPwf> GetWeather(IEnumerable<WeatherWf> weatherWf)
@@ -196,6 +200,16 @@ namespace WeatherAPI.Services.ForecastServices
             }
 
             return null;
+        }
+
+        private WindDir GetWindDirection(int direction)
+        {
+            var wind = new WindDir
+            {
+                DirTxt = direction.DirectionTxt(),
+                DirArrow = direction.DirectionArrow()
+            };
+            return wind;
         }
     }
 }

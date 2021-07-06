@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace WeatherAPI.Models.PointWeatherForecast
 {
@@ -12,9 +13,13 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public float? DewPoint { get; set; }
         public float? Uvi { get; set; }
         public int? Clouds { get; set; }
-        public int? Visibility { get; set; }
-        public float? WindSpeed { get; set; }
-        public int? WindDeg { get; set; }
-        public float? WindGust { get; set; }
+        public float? VisibilityKm { get; set; }
+        public float? WindSpeedKmPerH { get; set; }
+        public WindDir WindDir { get; set; }
+        public float? WindGustKmPerH { get; set; }
+        public IEnumerable<WeatherPwf> Weathers { get; set; }
+        public float? Pop { get; set; }
+        public RainPwf Rain { get; set; }
+        public SnowPwf Snow { get; set; }
     }
 }

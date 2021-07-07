@@ -4,6 +4,7 @@ namespace WeatherAPI.Models.PointWeatherForecast
 {
     public class PointWeatherForecast
     {
+        public int? StatusCode { get; set; }
         public double? Lat { get; set; }
         public double? Lon { get; set; } 
         public string Timezone { get; set; }

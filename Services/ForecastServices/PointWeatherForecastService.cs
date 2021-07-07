@@ -22,10 +22,11 @@ namespace WeatherAPI.Services.ForecastServices
             var weatherForecast = await _openWeatherForecast.GetWeatherForecastAsync(
                 lat, lon, units, lang);
 
-            if (weatherForecast is not null)
+            if (weatherForecast is not null && weatherForecast.Timezone is not null)
             {
                 var point = new PointWeatherForecast
                 {
+                    StatusCode = 200,
                     Lat = weatherForecast.Lat,
                     Lon = weatherForecast.Lon,
                     Timezone = weatherForecast.Timezone,
@@ -37,6 +38,15 @@ namespace WeatherAPI.Services.ForecastServices
                     Alerts = GetAlerts(weatherForecast)
                 };
 
+                return point;
+            }
+
+            if (weatherForecast is not null && weatherForecast.Timezone is null)
+            {
+                var point = new PointWeatherForecast
+                {
+                    StatusCode = 204,
+                };
                 return point;
             }
 

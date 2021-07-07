@@ -72,8 +72,41 @@ namespace WeatherAPI.Controllers
         [FromRoute] double lat, [FromRoute] double lon, [FromRoute] string units = "metric", 
         [FromRoute] string lang = "en")
         {
-            var test = await _forecast.GetPointWeatherForecastAsync(lat, lon, units, lang);
-            return Ok(test);
+            try
+            {
+                var point = await _forecast.GetPointWeatherForecastAsync(lat, lon, units, lang);
+
+                if (point is not null && point.StatusCode == 200)
+                {
+                    _logger.LogInformation("[{Time}]: The weather for a point with coordinates ({Lat}, {Lon}) and a timezone {Timezone}", 
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), lat, lon, point.Timezone);
+
+                    return Ok(point);
+                }
+
+                if (point is not null && point.StatusCode == 204)
+                {
+                    _logger.LogWarning("[{Time}]: 204 No Content, the HTTP response has no content",
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                }
+                else if (point is null)
+                {
+                    _logger.LogWarning("[{Time}]: Something went wrong and the response is null",
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                }
+                else
+                {
+                    _logger.LogWarning("[{Time}]: Something went wrong, unknown error",
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                }
+                
+                return  Ok(point);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("[{Time}]: {Msg}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), e.Message);
+                return Problem(e.Message, null, 500, e.Source);
+            }
         }
     }
 }

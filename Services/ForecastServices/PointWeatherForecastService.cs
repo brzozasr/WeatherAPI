@@ -72,6 +72,7 @@ namespace WeatherAPI.Services.ForecastServices
                     Clouds = weather.CurrentWf.Clouds,
                     VisibilityKm = Util.MToKm(weather.CurrentWf.Visibility),
                     WindSpeed = weather.CurrentWf.WindSpeed,
+                    WindSpeedKmPerH = Util.MPerSecToKmPerH(weather.CurrentWf.WindSpeed),
                     WindBeaufortScale = weather.CurrentWf.WindSpeed.BeaufortScale(),
                     WindDir = GetWindDirection(weather.CurrentWf.WindDeg),
                     WindGust = weather.CurrentWf.WindGust,

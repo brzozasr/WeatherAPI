@@ -18,6 +18,7 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public int? Clouds { get; set; }
         public float? VisibilityKm { get; set; }
         public float? WindSpeed { get; set; }
+        public float? WindSpeedKmPerH { get; set; }
         public string WindBeaufortScale { get; set; }
         public WindDir WindDir { get; set; }
         public float? WindGust { get; set; }

@@ -11,8 +11,8 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public DateTime? MoonriseLocal { get; set; }
         public DateTime? MoonsetLocal { get; set; }
         public float? MoonPhase { get; set; }
-        public TempPwf TempPwf { get; set; }
-        public FeelsLikePwf FeelsLikePwf { get; set; }
+        public Temp Temp { get; set; }
+        public FeelsLike FeelsLike { get; set; }
         public float? Pressure { get; set; }
         public float? Humidity { get; set; }
         public float? DewPoint { get; set; }

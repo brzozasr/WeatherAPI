@@ -161,8 +161,8 @@ namespace WeatherAPI.Services.ForecastServices
                         MoonriseLocal = Util.UnixTimeToDateTimeLocal(day.Moonrise, weather.TimezoneOffset),
                         MoonsetLocal = Util.UnixTimeToDateTimeLocal(day.Moonset, weather.TimezoneOffset),
                         MoonPhase = day.MoonPhase,
-                        TempPwf = GetTemp(day),
-                        FeelsLikePwf = GetFeelsLike(day),
+                        Temp = GetTemp(day),
+                        FeelsLike = GetFeelsLike(day),
                         Pressure = day.Pressure,
                         Humidity = day.Humidity,
                         DewPoint = day.DewPoint,
@@ -291,11 +291,11 @@ namespace WeatherAPI.Services.ForecastServices
             return wind;
         }
 
-        private TempPwf GetTemp(DailyWf daily)
+        private Temp GetTemp(DailyWf daily)
         {
             if (daily is not null)
             {
-                var temp = new TempPwf
+                var temp = new Temp
                 {
                     Day = daily.TempWf.Day,
                     Min = daily.TempWf.Min,
@@ -310,11 +310,11 @@ namespace WeatherAPI.Services.ForecastServices
             return null;
         }
         
-        private FeelsLikePwf GetFeelsLike(DailyWf daily)
+        private FeelsLike GetFeelsLike(DailyWf daily)
         {
             if (daily is not null)
             {
-                var feelsLike = new FeelsLikePwf
+                var feelsLike = new FeelsLike
                 {
                     Day = daily.FeelsLikeWf.Day,
                     Night = daily.FeelsLikeWf.Night,

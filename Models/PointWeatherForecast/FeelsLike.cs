@@ -1,6 +1,6 @@
 namespace WeatherAPI.Models.PointWeatherForecast
 {
-    public class FeelsLikePwf
+    public class FeelsLike
     {
         public float? Day { get; set; }
         public float? Night { get; set; }

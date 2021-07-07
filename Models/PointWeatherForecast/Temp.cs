@@ -1,6 +1,6 @@
 namespace WeatherAPI.Models.PointWeatherForecast
 {
-    public class TempPwf
+    public class Temp
     {
         public float? Day { get; set; }
         public float? Min { get; set; }

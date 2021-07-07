@@ -1,6 +1,6 @@
 namespace WeatherAPI.Extensions
 {
-    public static class WindDirection
+    public static class Wind
     {
         public static string DirectionTxt(this int direction)
         {
@@ -112,6 +112,66 @@ namespace WeatherAPI.Extensions
             }
 
             return dirImg;
+        }
+
+        public static string BeaufortScale(this float windSpeed)
+        {
+            var description = string.Empty;
+
+            if (windSpeed >= 0 && windSpeed <= 0.5)
+            {
+                description = "Calm";
+            }
+            else if (windSpeed > 0.5 && windSpeed <= 1.5)
+            {
+                description = "Light air";
+            }
+            else if (windSpeed > 1.5 && windSpeed <= 3.3)
+            {
+                description = "Light breeze";
+            }
+            else if (windSpeed > 3.3 && windSpeed <= 5.5)
+            {
+                description = "Gentle breeze";
+            }
+            else if (windSpeed > 5.5 && windSpeed <= 7.9)
+            {
+                description = "Moderate breeze";
+            }
+            else if (windSpeed > 7.9 && windSpeed <= 10.7)
+            {
+                description = "Fresh breeze";
+            }
+            else if (windSpeed > 10.7 && windSpeed <= 13.8)
+            {
+                description = "Strong breeze";
+            }
+            else if (windSpeed > 13.8 && windSpeed <= 17.1)
+            {
+                description = "Moderate gale";
+            }
+            else if (windSpeed > 17.1 && windSpeed <= 20.7)
+            {
+                description = "Fresh gale";
+            }
+            else if (windSpeed > 20.7 && windSpeed <= 24.4)
+            {
+                description = "Strong gale";
+            }
+            else if (windSpeed > 24.4 && windSpeed <= 28.4)
+            {
+                description = "Whole gale";
+            }
+            else if (windSpeed > 28.4 && windSpeed <= 32.6)
+            {
+                description = "Storm";
+            }
+            else if (windSpeed > 32.6)
+            {
+                description = "Hurricane";
+            }
+
+            return description;
         }
     }
 }

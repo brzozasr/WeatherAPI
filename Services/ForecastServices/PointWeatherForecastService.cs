@@ -169,6 +169,8 @@ namespace WeatherAPI.Services.ForecastServices
                         Humidity = day.Humidity,
                         DewPoint = day.DewPoint,
                         WindSpeed = day.WindSpeed,
+                        WindSpeedKmPerH = Util.MPerSecToKmPerH(day.WindSpeed),
+                        WindBeaufortScale = day.WindSpeed.BeaufortScale(),
                         WindDir = GetWindDirection(day.WindDeg),
                         WindGust = day.WindGust,
                         Weathers = GetWeather(day.Weathers),

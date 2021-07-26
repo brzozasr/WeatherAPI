@@ -17,6 +17,8 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public float? Humidity { get; set; }
         public float? DewPoint { get; set; }
         public float? WindSpeed { get; set; }
+        public float? WindSpeedKmPerH { get; set; }
+        public string WindBeaufortScale { get; set; }
         public WindDir WindDir { get; set; }
         public float? WindGust { get; set; }
         public IEnumerable<WeatherPwf> Weathers { get; set; }

@@ -50,7 +50,8 @@ namespace WeatherAPI
                         builder.WithOrigins(
                             "https://localhost:5001", 
                             "http://localhost:5000",
-                            "http://localhost:4200")
+                            "http://localhost:4200",
+                            "https://localhost:4200")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });

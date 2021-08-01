@@ -130,6 +130,7 @@ namespace WeatherAPI.Services.ForecastServices
                         Clouds = hour.Clouds,
                         VisibilityKm = Util.MToKm(hour.Visibility),
                         WindSpeed = hour.WindSpeed,
+                        WindSpeedKm = Util.MPerSecToKmPerH(hour.WindSpeed),
                         WindDir = GetWindDirection(hour.WindDeg),
                         WindGust = hour.WindGust,
                         Weathers = GetWeather(hour.Weathers),

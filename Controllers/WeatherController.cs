@@ -130,12 +130,7 @@ namespace WeatherAPI.Controllers
                     return Ok(point);
                 }
 
-                if (point is not null && point.StatusCode == 204)
-                {
-                    _logger.LogWarning("[{Time}]: (Historical) 204 No Content, the HTTP response has no content",
-                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-                }
-                else if (point is null)
+                if (point is null)
                 {
                     _logger.LogWarning("[{Time}]: (Historical) Something went wrong and the response is null",
                         DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));

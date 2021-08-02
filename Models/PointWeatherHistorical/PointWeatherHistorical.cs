@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace WeatherAPI.Models.PointWeatherHistorical
 {
     public class PointWeatherHistorical
@@ -7,5 +9,11 @@ namespace WeatherAPI.Models.PointWeatherHistorical
         public double? Lon { get; set; } 
         public string Timezone { get; set; }
         public long? TimezoneOffset { get; set; }
+        public List<HourlyPwh> Hourly { get; set; }
+
+        public PointWeatherHistorical()
+        {
+            Hourly = new List<HourlyPwh>();
+        }
     }
 }

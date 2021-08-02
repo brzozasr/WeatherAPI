@@ -34,7 +34,8 @@ namespace WeatherAPI.Services.HistoricalServices
                 {
                     var content = await response.Content.ReadAsStringAsync();
 
-                    if (content.Length > 0)
+                    if (content.Length > 0 && content.Contains("\"lat\"") && content.Contains("\"lon\"")
+                    && content.Contains("\"timezone\"") && content.Contains("\"timezone_offset\""))
                     {
                         var weatherHistorical = JsonConvert.DeserializeObject<WeatherHistorical>(content);
                         return weatherHistorical;

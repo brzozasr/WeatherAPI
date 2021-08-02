@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WeatherAPI.Extensions;
 using WeatherAPI.Models.WeatherForecast;
+using WeatherAPI.Models.WeatherHistorical;
 
 namespace WeatherAPI.Services.HistoricalServices
 {
@@ -17,7 +18,7 @@ namespace WeatherAPI.Services.HistoricalServices
             _httpClient = httpClient;
         }
         
-        public async Task<WeatherForecast> GetWeatherHistoricalAsync(double lat, double lon, long unixTime, string units = "metric", string lang = "en")
+        public async Task<WeatherHistorical> GetWeatherHistoricalAsync(double lat, double lon, long unixTime, string units = "metric", string lang = "en")
         {
             try
             {
@@ -34,7 +35,7 @@ namespace WeatherAPI.Services.HistoricalServices
 
                     if (content.Length > 0)
                     {
-                        var weatherHistorical = JsonConvert.DeserializeObject<WeatherForecast>(content);
+                        var weatherHistorical = JsonConvert.DeserializeObject<WeatherHistorical>(content);
                         return weatherHistorical;
                     }
                 }

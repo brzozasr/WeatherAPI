@@ -18,7 +18,8 @@ namespace WeatherAPI.Services.HistoricalServices
             _httpClient = httpClient;
         }
         
-        public async Task<WeatherHistorical> GetWeatherHistoricalAsync(double lat, double lon, long unixTime, string units = "metric", string lang = "en")
+        public async Task<WeatherHistorical> GetWeatherHistoricalAsync(
+            double lat, double lon, long unixTime, string units = "metric", string lang = "en")
         {
             try
             {

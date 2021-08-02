@@ -9,7 +9,7 @@ namespace WeatherAPI.Services.ForecastServices
 {
     public class PointWeatherForecastService : IPointWeatherForecastService
     {
-        private IOpenWeatherForecastService _openWeatherForecast;
+        private readonly IOpenWeatherForecastService _openWeatherForecast;
 
         public PointWeatherForecastService(IOpenWeatherForecastService openWeatherForecast)
         {

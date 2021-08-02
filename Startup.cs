@@ -13,6 +13,7 @@ using WeatherAPI.Models;
 using WeatherAPI.Repositories;
 using WeatherAPI.Services.BBoxServices;
 using WeatherAPI.Services.ForecastServices;
+using WeatherAPI.Services.HistoricalServices;
 
 namespace WeatherAPI
 {
@@ -41,6 +42,10 @@ namespace WeatherAPI
             services.AddOpenWeatherForecastService(
                 new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]))
                 .AddTransient<IPointWeatherForecastService, PointWeatherForecastService>();
+
+            services.AddOpenWeatherHistoricalService(
+                    new Uri(Configuration["OpenWeatherSettings:BaseApiUrl"]))
+                .AddTransient<IPointWeatherHistoricalService, PointWeatherHistoricalService>();
             
             services.AddCors(options =>
             {

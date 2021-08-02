@@ -45,9 +45,9 @@ namespace WeatherAPI.Models.WeatherHistorical
         public IEnumerable<WeatherWh> Weathers { get; set; }
 
         [JsonProperty("rain")] 
-        public float? Rain { get; set; }
+        public RainWh Rain { get; set; }
 
         [JsonProperty("snow")] 
-        public float? Snow { get; set; }
+        public SnowWh Snow { get; set; }
     }
 }

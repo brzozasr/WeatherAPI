@@ -19,7 +19,7 @@ namespace WeatherAPI.Services.HistoricalServices
         public async Task<PointWeatherHistorical> GetPointWeatherHistoricalAsync(
             double lat, double lon, string units = "metric", string lang = "en")
         {
-            var queryCounter = 5;
+            var queryCounter = 5;  // 5 it means => 5 request five API calls (one call for each day)
             var weatherHistoricalList = new List<WeatherHistorical>();
             var unixTimeNow = Util.UnixTimeNow();
             var unixTime = unixTimeNow;

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WeatherAPI.Services;
 using WeatherAPI.Services.BBoxServices;
 using WeatherAPI.Services.ForecastServices;
+using WeatherAPI.Services.HistoricalServices;
 
 namespace WeatherAPI.Extensions
 {
@@ -34,6 +35,15 @@ namespace WeatherAPI.Extensions
         {
             return service.AddSingleton<IOpenWeatherForecastService, OpenWeatherForecastService>(serviceProvider => 
                 new OpenWeatherForecastService(new HttpClient
+                {
+                    BaseAddress = baseApiUri
+                }));
+        }
+        
+        public static IServiceCollection AddOpenWeatherHistoricalService(this IServiceCollection service, Uri baseApiUri)
+        {
+            return service.AddSingleton<IOpenWeatherHistoricalService, OpenWeatherHistoricalService>(serviceProvider => 
+                new OpenWeatherHistoricalService(new HttpClient
                 {
                     BaseAddress = baseApiUri
                 }));

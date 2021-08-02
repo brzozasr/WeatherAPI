@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace WeatherAPI.Models.PointWeatherForecast
+namespace WeatherAPI.Models.PointWeatherHistorical
 {
-    public class HourlyPwf
+    public class HourlyPwh
     {
+        public DateTime? Dt { get; set; }
         public DateTime? DtLocal { get; set; }
         public float? Temp { get; set; }
         public float? FeelsLike { get; set; }
@@ -13,14 +14,15 @@ namespace WeatherAPI.Models.PointWeatherForecast
         public float? DewPoint { get; set; }
         public float? Uvi { get; set; }
         public int? Clouds { get; set; }
+        public int? Visibility { get; set; }
         public float? VisibilityKm { get; set; }
         public float? WindSpeed { get; set; }
-        public float? WindSpeedKm { get; set; }
-        public WindDir WindDir { get; set; }
+        public float? WindSpeedKmPerH { get; set; }
         public float? WindGust { get; set; }
-        public IEnumerable<WeatherPwf> Weathers { get; set; }
-        public float? Pop { get; set; }
-        public RainPwf Rain { get; set; }
-        public SnowPwf Snow { get; set; }
+        public int? WindDeg { get; set; }
+        public WindDirPwh WindDir { get; set; }
+        public IEnumerable<WeatherPwh> Weathers { get; set; }
+        public RainPwh Rain { get; set; }
+        public SnowPwh Snow { get; set; }
     }
 }

@@ -36,6 +36,11 @@ namespace WeatherAPI.Utilities
             return null;
         }
 
+        public static long UnixTimeNow()
+        {
+            return DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+
         public static float? MPerSecToKmPerH(float? mPerSec)
         {
             return (float?) Math.Round(

@@ -14,6 +14,16 @@ namespace WeatherAPI.Utilities
             return null;
         }
         
+        public static DateTime? UnixTimeToDateTime(long? unixTime)
+        {
+            if (unixTime is > 0)
+            {
+                return DateTimeOffset.FromUnixTimeSeconds(unixTime.Value).DateTime;
+            }
+
+            return null;
+        }
+        
         public static DateTime? UnixTimeToDateTimeLocal(long unixTime, long timezoneOffset)
         {
             if (unixTime > 0)

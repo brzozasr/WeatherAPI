@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing.Template;
 using WeatherAPI.Extensions;
 using WeatherAPI.Models.PointWeatherHistorical;
 using WeatherAPI.Models.WeatherHistorical;
@@ -310,7 +309,7 @@ namespace WeatherAPI.Services.HistoricalServices
         private AggRain GetMinMaxRain(List<HourlyPwh> hourlyList)
         {
             var min = hourlyList.Where(x => x.Rain != null)
-                .OrderBy(x => x.Rain?.H1).FirstOrDefault();
+                .OrderBy(x => x.Rain.H1).FirstOrDefault();
             var max = hourlyList.Where(x => x.Rain != null)
                 .OrderByDescending(x => x.Rain.H1).FirstOrDefault();
 
@@ -334,7 +333,7 @@ namespace WeatherAPI.Services.HistoricalServices
         private AggSnow GetMinMaxSnow(List<HourlyPwh> hourlyList)
         {
             var min = hourlyList.Where(x => x.Snow != null)
-                .OrderBy(x => x.Snow?.H1).FirstOrDefault();
+                .OrderBy(x => x.Snow.H1).FirstOrDefault();
             var max = hourlyList.Where(x => x.Snow != null)
                 .OrderByDescending(x => x.Snow.H1).FirstOrDefault();
 
